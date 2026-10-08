@@ -15,16 +15,28 @@ class MahasiswaController extends Controller
 
     public function create()
     {
-        return 'create: form tambah mahasiswa';
+        return view('mahasiswa.create');
     }
 
     public function store(Request $request)
     {
-        return 'store: simpan data baru';
+        Mahasiswa::create($request->only([
+            'nim',
+            'nama',
+            'email',
+            'prodi',
+            'semester'
+        ]));
+
+        return redirect()
+            ->route('mahasiswa.index')
+            ->with('pesan', 'Data berhasil ditambahkan');
     }
 
     public function show(Mahasiswa $mahasiswa)
     {
+         $mahasiswa->load('nilai.matakuliah');
+
         return view('mahasiswa.show', compact('mahasiswa'));
     }
 
@@ -33,13 +45,27 @@ class MahasiswaController extends Controller
         return "edit: form edit mahasiswa id {$id}";
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Mahasiswa $mahasiswa)
     {
-        return "update: perbarui data id {$id}";
+        $mahasiswa->update($request->only([
+            'nim',
+            'nama',
+            'email',
+            'prodi',
+            'semester'
+        ]));
+
+        return redirect()
+            ->route('mahasiswa.index')
+            ->with('pesan', 'Data berhasil diperbarui');
     }
 
-    public function destroy($id)
+    public function destroy(Mahasiswa $mahasiswa)
     {
-        return "destroy: hapus data id {$id}";
+        $mahasiswa->delete();
+
+        return redirect()
+            ->route('mahasiswa.index')
+            ->with('pesan', 'Data berhasil dihapus');
     }
 }
