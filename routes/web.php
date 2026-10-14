@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MatakuliahController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\QueryBuilderDemoController;
@@ -35,3 +36,4 @@ Route::post('/query-builder/delete', [QueryBuilderDemoController::class, 'delete
 Route::get('/query-builder', [QueryBuilderDemoController::class, 'tampilkanSemua']);
 Route::get('/query-builder/filter', [QueryBuilderDemoController::class, 'tampilkanFilter']);
 Route::get('/query-builder/statistik', [QueryBuilderDemoController::class, 'statistikProdi']);
+Route::resource('matakuliah', MatakuliahController::class);
