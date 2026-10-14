@@ -12,6 +12,8 @@ Route::get('/halo', function () {
     return 'Halo, ini adalah route pertama saya!';
 });
 
+Route::get('/mahasiswa/jumlah-prodi', [MahasiswaController::class, 'jumlahPerProdi'])
+    ->name('mahasiswa.jumlah-prodi');
 Route::resource('mahasiswa', MahasiswaController::class);
 
 Route::prefix('admin')->name('admin.')->group(function () {

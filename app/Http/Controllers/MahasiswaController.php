@@ -9,8 +9,11 @@ class MahasiswaController extends Controller
 {
     public function index()
     {
-        $mahasiswa = Mahasiswa::all();
-        return view('mahasiswa.index', compact('mahasiswa'));
+        $data = \Illuminate\Support\Facades\DB::table('mahasiswas')
+            ->orderBy('nama', 'asc')
+            ->paginate(10);
+
+        return view('mahasiswa.index', compact('data'));
     }
 
     public function create()
@@ -67,5 +70,15 @@ class MahasiswaController extends Controller
         return redirect()
             ->route('mahasiswa.index')
             ->with('pesan', 'Data berhasil dihapus');
+    }
+
+    public function jumlahPerProdi()
+    {
+        $data = \Illuminate\Support\Facades\DB::table('mahasiswas')
+                ->select('prodi', \Illuminate\Support\Facades\DB::raw('count(*) as jumlah'))
+                ->groupBy('prodi')
+                ->get();
+
+            return view('mahasiswa.jumlah-prodi', compact('data'));
     }
 }
