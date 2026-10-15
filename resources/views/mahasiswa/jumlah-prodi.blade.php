@@ -1,4 +1,5 @@
-```html
+@extends('layouts.app')
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -28,4 +29,3 @@
     </table>
 </body>
 </html>
-```

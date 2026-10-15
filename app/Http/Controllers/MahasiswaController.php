@@ -39,14 +39,15 @@ class MahasiswaController extends Controller
 
     public function show(Mahasiswa $mahasiswa)
     {
-         $mahasiswa->load('nilai.matakuliah');
+        $mahasiswa = Mahasiswa::with('nilai.matakuliah')
+            ->findOrFail($mahasiswa->id);
 
         return view('mahasiswa.show', compact('mahasiswa'));
     }
 
-    public function edit($id)
+    public function edit(Mahasiswa $mahasiswa)
     {
-        return "edit: form edit mahasiswa id {$id}";
+        return view('mahasiswa.edit', compact('mahasiswa'));
     }
 
     public function update(Request $request, Mahasiswa $mahasiswa)
@@ -76,10 +77,13 @@ class MahasiswaController extends Controller
     public function jumlahPerProdi()
     {
         $data = \Illuminate\Support\Facades\DB::table('mahasiswas')
-                ->select('prodi', \Illuminate\Support\Facades\DB::raw('count(*) as jumlah'))
-                ->groupBy('prodi')
-                ->get();
+            ->select(
+                'prodi',
+                \Illuminate\Support\Facades\DB::raw('count(*) as jumlah')
+            )
+            ->groupBy('prodi')
+            ->get();
 
-            return view('mahasiswa.jumlah-prodi', compact('data'));
+        return view('mahasiswa.jumlah-prodi', compact('data'));
     }
 }
